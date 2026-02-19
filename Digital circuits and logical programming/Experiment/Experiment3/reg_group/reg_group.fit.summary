@@ -1,0 +1,10 @@
+Fitter Status : Successful - Fri Dec 12 17:02:17 2025
+Quartus II Version : 9.0 Build 184 04/29/2009 SP 1 SJ Web Edition
+Revision Name : reg_group
+Top-level Entity Name : reg_group
+Family : FLEX10K
+Device : EPF10K20TC144-4
+Timing Models : Final
+Total logic elements : 68 / 1,152 ( 6 % )
+Total pins : 30 / 102 ( 29 % )
+Total memory bits : 0 / 12,288 ( 0 % )

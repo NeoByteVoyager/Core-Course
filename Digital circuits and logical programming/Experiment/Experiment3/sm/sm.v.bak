@@ -1,0 +1,17 @@
+// SM：取指/执行周期标志
+module sm(
+    input  clk,      // 时钟信号
+    input  sm_en,    // 使能信号
+    output reg sm    // 1 位输出，0：取指周期；1：执行周期
+);
+
+    // 初始值为 0
+    initial sm = 1'b0;
+
+    // 在 clk 下降沿，当 sm_en = 1 时翻转 sm
+    always @(negedge clk) begin
+        if (sm_en)
+            sm <= ~sm;
+    end
+
+endmodule

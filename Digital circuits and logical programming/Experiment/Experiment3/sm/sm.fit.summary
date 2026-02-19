@@ -1,0 +1,10 @@
+Fitter Status : Successful - Fri Dec 12 15:12:38 2025
+Quartus II Version : 9.0 Build 184 04/29/2009 SP 1 SJ Web Edition
+Revision Name : sm
+Top-level Entity Name : sm
+Family : FLEX10K
+Device : EPF10K20TC144-4
+Timing Models : Final
+Total logic elements : 1 / 1,152 ( < 1 % )
+Total pins : 3 / 102 ( 3 % )
+Total memory bits : 0 / 12,288 ( 0 % )

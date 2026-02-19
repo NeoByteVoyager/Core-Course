@@ -1,0 +1,56 @@
+module controller(
+    input [1:0] sm,         // 状态信号变为2位：00取指，01准备，10执行
+    input mova, movb, movc, movd, add, sub, jmp, jg, in1, out1, movi, halt, 
+    input [7:0] ir,     
+    input gf,               
+
+    output ld_pc, in_pc,
+    output  [1:0]s,
+    output ram_re, ram_we, ld_dr, ld_ir, reg_we, s0,
+    output [1:0]  SR, DR,
+    
+    output  au_en, 
+    output [3:0] ac,
+    output g_en,in_en, out_en, sm_en,
+    output decoder_en
+    
+);
+	
+	
+
+    wire fetch = (sm == 2'b00);
+    wire prep  = (sm == 2'b01);
+    wire exec  = (sm == 2'b10);
+    
+   
+   
+	assign in_pc  = fetch | (exec & movi);
+    assign ld_pc  = exec & (jmp | (jg & gf));
+    
+   
+    assign s = exec  ? (movc ? 2'b01 :  
+                        movb ? 2'b10 :  
+                        2'b00) :        
+               2'b00;
+
+
+    assign ram_re = fetch | (exec & (movc | movi)); 
+    assign ram_we = exec & movb;
+
+    assign ld_dr  = prep; // DR 依然在准备周期工作，这就是多周期的证明
+    assign ld_ir  = fetch;
+
+    
+    assign reg_we = exec & (mova | movc | movd | add | sub | in1 | movi);
+    assign s0     = (exec & movd) ? 1'b0 : 1'b1;//
+    assign SR     = ir[1:0];
+    assign DR     = ir[3:2];
+    assign au_en  = exec & (mova | add | sub | movb | out1);
+    assign ac     = ir[7:4];
+    assign sm_en  = ~(exec & halt);
+    assign g_en   = exec & sub;
+    assign in_en  = exec & in1;
+    assign out_en = exec & out1;
+    assign decoder_en = sm[0] | sm[1];//
+
+endmodule

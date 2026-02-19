@@ -1,0 +1,24 @@
+module sm (
+    input wire clk,
+    input wire sm_en,
+    output reg [1:0] sm // 【修改】输出变为 2 位宽
+);
+    // 定义状态名称，方便阅读
+    parameter S_FETCH = 2'b00;
+    parameter S_PREP  = 2'b01;
+    parameter S_EXEC  = 2'b10;
+
+    initial sm = S_FETCH;
+    
+    // 保持下降沿触发，配合Buffer在上升沿锁存
+    always @(negedge clk) begin
+        if (sm_en) begin
+            case (sm)
+                S_FETCH: sm <= S_PREP;
+                S_PREP:  sm <= S_EXEC;
+                S_EXEC:  sm <= S_FETCH;
+                default: sm <= S_FETCH;
+            endcase
+        end
+    end
+endmodule

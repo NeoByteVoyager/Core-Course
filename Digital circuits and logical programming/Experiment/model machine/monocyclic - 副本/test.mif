@@ -1,0 +1,15 @@
+DEPTH = 256;
+WIDTH = 8;
+ADDRESS_RADIX = DEC;
+DATA_RADIX = HEX;
+
+CONTENT
+BEGIN
+    0 : E0;  -- MOVI
+    1 : 05;  -- #5
+    2 : 44;  -- MOVA R1, R0
+    3 : 81;  -- ADD R0, R1
+    4 : D0;  -- OUT R0 (Expect: 0A)
+    5 : F0;  -- HALT
+    [6..255] : 00;
+END;

@@ -1,0 +1,40 @@
+module au(
+    input au_en,
+    input [3:0] ac,
+    input signed[7:0] a,
+    input signed[7:0] b,
+    output reg signed[7:0] t,
+    output reg gf
+);
+
+always @(*) begin
+    if(!au_en) begin
+        t = 8'hzz;  
+        gf = 0;
+    end
+    else begin
+        case(ac)
+            4'b1000: begin  // ADD
+                t = a + b;
+                gf = 0;
+            end
+            4'b1001: begin  // SUB (b - a)
+                t = b - a;
+                if(b > a)
+                    gf = 1;
+                else
+                    gf = 0;
+            end
+            4'b0100, 4'b0101, 4'b1101: begin  // MOVA, MOVB, OUT
+                t = a;
+                gf = 0;
+            end
+            default: begin
+                t = 8'hzz;  
+                gf = 0;
+            end
+        endcase
+    end
+end
+
+endmodule

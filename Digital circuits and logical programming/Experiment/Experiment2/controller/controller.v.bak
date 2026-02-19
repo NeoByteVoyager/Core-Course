@@ -1,0 +1,45 @@
+module controller(
+    input sm,               // 状态信号：0为取指，1为执行
+    input mova, movb, movc, movd, add, sub, jmp, jg, in1, out1, movi, halt, // 译码信号
+    input [7:0] ir,     // IR[3..0]
+    input gf,               // 标志位 G
+    output reg ld_pc,           
+    output reg in_pc,           
+    output reg [1:0] s,         // RAM地址选择
+    output reg ram_we,          
+    output reg ram_re,          
+    output reg ld_ir,           
+    output reg reg_we,          
+    output reg au_en,           
+    output reg [3:0] ac,        
+    output reg g_en,            
+    output reg in_en,           
+    output reg out_en,          
+    output reg s0,              // 寄存器写来源选择
+    output reg sm_en,           
+    output reg [1:0] SR,        
+    output reg [1:0] DR         
+);
+always @(*) begin
+    
+    s = movb ? 2'b10 : (movc ? 2'b01 : 2'b00);
+
+    
+    DR = ir[3:2];               
+    SR = ir[1:0];                
+    au_en = mova | movb | add | out1 | sub; 
+    sm_en = ~halt;              
+    ld_ir = ~sm;                 
+    ram_re = (~sm) | movc | movi; 
+    ram_we = movb;               
+    g_en = sub;                 
+    ld_pc = jmp | (jg & gf);      
+    in_pc = movi | (~sm);        
+    reg_we = movi | mova | movc | movd | sub | add | in1; 
+    in_en = in1;                
+    out_en = out1;               
+    ac = ir[7:4];             
+    s0 = mova | movi | add | sub | in1 | movc; 
+end
+
+endmodule
