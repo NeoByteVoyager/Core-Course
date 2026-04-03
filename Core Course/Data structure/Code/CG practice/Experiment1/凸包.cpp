@@ -71,9 +71,7 @@ int main() {
     pts.erase(unique(pts.begin(), pts.end()), pts.end());
     n = pts.size();
 
-    // ==========================================
     // 步骤 1) 处理退化情况
-    // ==========================================
     if (n < 3) {
         for (const auto& p : pts) cout << p.x << " " << p.y << endl;
         return 0;
@@ -101,9 +99,7 @@ int main() {
     X_x = (pts[0].x + pts[1].x + pts[non_collinear_idx].x) / 3.0;
     X_y = (pts[0].y + pts[1].y + pts[non_collinear_idx].y) / 3.0;
 
-    // ==========================================
     // 步骤 2) 按极角排序并构建双向循环链表
-    // ==========================================
     sort(pts.begin(), pts.end(), comparePolar);
 
     Node* head = new Node(pts[0]);
@@ -125,9 +121,7 @@ int main() {
     curr->next = head;
     head->prev = curr;
     
-    // ==========================================
     // 步骤 3) 删除非极点的点
-    // ==========================================
     Node* p = min_y_node;
     Node* x = p;
     Node* rx = x->next;
@@ -166,9 +160,7 @@ int main() {
         temp = temp->next;
     } while (temp != p);
 
-    // ==========================================
     // 输出部分
-    // ==========================================
     sort(hull.begin(), hull.end(), compareOutput);
     for (const auto& pt : hull) {
         cout << pt.x << " " << pt.y << endl;
