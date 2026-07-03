@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PPT 风格预览 — 个人作品集分享</title>
+  <style>
+    :root {
+      --bg: #f2efe9;
+      --bg-accent: #e6ded1;
+      --panel: rgba(255, 250, 242, 0.86);
+      --panel-strong: rgba(255, 252, 247, 0.96);
+      --line: rgba(73, 56, 34, 0.14);
+      --text: #201a13;
+      --muted: #6d5d4c;
+      --accent: #bc5b28;
+      --accent-soft: #f2d6c6;
+      --shadow: 0 16px 50px rgba(75, 46, 16, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --max-width: 1480px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Segoe UI Variable Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 197, 147, 0.56), transparent 26%),
+        radial-gradient(circle at top right, rgba(130, 184, 255, 0.22), transparent 22%),
+        linear-gradient(180deg, #faf6f0 0%, var(--bg) 40%, #efe8dc 100%);
+      min-height: 100vh;
+    }
+
+    button { font: inherit; cursor: pointer; }
+
+    .shell {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 24px auto 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(255, 251, 245, 0.96), rgba(246, 237, 226, 0.86)),
+        linear-gradient(135deg, rgba(255, 140, 87, 0.12), rgba(96, 162, 255, 0.08));
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -90px auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(188, 91, 40, 0.2), rgba(188, 91, 40, 0));
+      pointer-events: none;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .hero-title { max-width: 860px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(188, 91, 40, 0.15);
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 6vw, 64px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+    }
+
+    .intro {
+      margin: 0;
+      max-width: 860px;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .hero-notes {
+      display: grid;
+      gap: 12px;
+      min-width: 260px;
+      flex: 0 0 300px;
+    }
+
+    .note-card {
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid var(--line);
+    }
+
+    .note-label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .note-value {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .summary-bar {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .summary-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .gallery { margin-top: 24px; display: grid; gap: 18px; }
+
+    .scheme {
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(250, 245, 237, 0.92));
+      box-shadow: var(--shadow);
+    }
+
+    .scheme-head {
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .scheme-main { min-width: 0; }
+
+    .scheme-topline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .scheme-code {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: #6c2d08;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .scheme-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .scheme-title {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 30px);
+      letter-spacing: -0.03em;
+    }
+
+    .scheme-subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 900px;
+    }
+
+    .scheme-body {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 22px;
+      border-top: 1px solid var(--line);
+      padding: 22px;
+      background: rgba(255, 252, 247, 0.56);
+    }
+
+    .meta-panel {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .meta-section + .meta-section { margin-top: 18px; }
+
+    .meta-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    .preview-card { min-width: 0; }
+
+    .preview-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .preview-button {
+      width: 100%;
+      display: block;
+      padding: 0;
+      cursor: pointer;
+      border: 0;
+      border-radius: 18px;
+      background: transparent;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 12px 26px rgba(52, 34, 9, 0.12);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .preview-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 34px rgba(52, 34, 9, 0.16);
+    }
+
+    .preview-button::after {
+      content: "点击放大";
+      position: absolute;
+      inset: auto 12px 12px auto;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(18, 14, 10, 0.76);
+      color: #fff7f2;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .preview-button:hover::after { opacity: 1; }
+
+    .preview-image {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: linear-gradient(135deg, #d9ccb7, #f7f0e5);
+    }
+
+    .preview-caption {
+      margin-top: 8px;
+      padding: 0 2px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(18, 14, 10, 0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-panel {
+      width: min(1380px, 100%);
+      max-height: calc(100vh - 44px);
+      overflow: hidden;
+      border-radius: 28px;
+      background: rgba(255, 249, 242, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .lightbox-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .lightbox-title { margin: 0; font-size: 24px; letter-spacing: -0.03em; }
+    .lightbox-subtitle { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+    .lightbox-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .icon-button {
+      cursor: pointer;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text);
+      font-size: 18px;
+    }
+
+    .lightbox-body { padding: 20px; overflow: auto; max-height: calc(100vh - 144px); }
+
+    .lightbox-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .lightbox-image-wrap {
+      overflow: hidden;
+      border-radius: 22px;
+      background: #f2e8db;
+      border: 1px solid var(--line);
+    }
+
+    .lightbox-image { width: 100%; display: block; background: #efe4d4; }
+
+    .lightbox-side { display: grid; gap: 10px; }
+
+    .thumb-button {
+      display: block;
+      padding: 0;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.82);
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .thumb-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(52, 34, 9, 0.1);
+    }
+
+    .thumb-button.active {
+      border-color: rgba(188, 91, 40, 0.55);
+      box-shadow: 0 0 0 3px rgba(188, 91, 40, 0.12);
+    }
+
+    .thumb-image { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
+    .thumb-meta { padding: 10px 12px; font-size: 13px; color: var(--muted); text-align: left; }
+
+    .notice {
+      margin-top: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(255, 197, 147, 0.25);
+      border: 1px solid rgba(188, 91, 40, 0.2);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1080px) {
+      .scheme-body { grid-template-columns: 1fr; }
+      .preview-grid { grid-template-columns: 1fr; }
+      .lightbox-stage { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .shell { width: min(calc(100% - 20px), var(--max-width)); margin-top: 10px; }
+      .hero { padding: 24px; border-radius: 22px; }
+      .scheme-head, .scheme-body { padding-left: 16px; padding-right: 16px; }
+      h1 { line-height: 1.02; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div class="hero-top">
+        <div class="hero-title">
+          <span class="eyebrow">Style Preview</span>
+          <h1>PPT 风格预览</h1>
+          <p class="intro">
+            个人作品集网站分享 — 面向社团/同学的 8-12 页标准版 PPT。下方提供 3 种风格方向，每种含首页/目录页/正文页预览。
+          </p>
+        </div>
+        <div class="hero-notes">
+          <div class="note-card">
+            <span class="note-label">使用方式</span>
+            <div class="note-value">先展开候选方案，再点击图片放大查看细节。</div>
+          </div>
+          <div class="note-card">
+            <span class="note-label">注意</span>
+            <div class="note-value">当前环境无 AI 图像生成能力，预览图为 SVG 示意，仅供风格方向比较。<br>选定风格后可用外部工具生成高清预览。</div>
+          </div>
+          <div class="notice">
+            💡 请选择一个最合眼缘的风格方向，确认后我将基于该风格完成整份 PPT 的内容规划与生成。
+          </div>
+        </div>
+      </div>
+      <div class="summary-bar">
+        <span class="summary-chip">首页：看气质</span>
+        <span class="summary-chip">目录页：看结构</span>
+        <span class="summary-chip">正文页：看可用性</span>
+        <span class="summary-chip">卡片：看提案理由</span>
+      </div>
+    </section>
+
+    <main class="gallery">
+      <!-- 方案 A：霓虹科技风 -->
+      <section class="scheme" data-scheme>
+        <div class="scheme-head">
+          <div class="scheme-main">
+            <div class="scheme-topline">
+              <span class="scheme-code">A</span>
+              <span class="scheme-tag" style="background:rgba(108,99,255,0.12);color:#6c63ff;">推荐</span>
+            </div>
+            <h2 class="scheme-title">方案 A ｜ 霓虹科技风</h2>
+            <p class="scheme-subtitle">延续个人网站的深色主题 + 三色渐变体系，粒子网络元素贯穿全篇，科技感十足，适合技术分享场景。</p>
+          </div>
+        </div>
+        <div class="scheme-body">
+          <aside class="meta-panel">
+            <div class="meta-section">
+              <div class="meta-label">一句话定位</div>
+              <div class="meta-value">深色科技 + 渐变霓虹，和你的网站视觉高度一致，社团技术分享首选。</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">封面页方向</div>
+              <div class="meta-value">深色底色上，粒子连线网络作为背景纹理，中央大号渐变标题「个人作品集」，右侧放置网站缩略图剪影。</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">正文页视觉语法</div>
+              <div class="meta-value">深色卡片容器 + 渐变边框高亮，技能条/项目卡片用三色渐变进度条，信息密度适中，重点用发光色块标注。</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">配色</div>
+              <div class="meta-value">底色 #0a0a1a · 主色 #6c63ff · 辅色 #00d4aa · 点缀 #ff6b9d</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">风险点</div>
+              <div class="meta-value">投影环境不佳时深色背景对比度不足，需确保会场屏幕亮度够。</div>
+            </div>
+          </aside>
+          <div class="preview-grid">
+            <div class="preview-card">
+              <div class="preview-label">首页</div>
+              <button class="preview-button" type="button" data-preview-title="方案 A｜霓虹科技风 — 首页" data-preview-subtitle="深色底色 + 粒子网络 + 渐变标题" data-preview-group="A" data-preview-index="0">
+                <img class="preview-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%230a0a1a'/%3E%3Cstop offset='100%25' stop-color='%2312122a'/%3E%3C/linearGradient%3E%3ClinearGradient id='grad' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%236c63ff'/%3E%3Cstop offset='50%25' stop-color='%2300d4aa'/%3E%3Cstop offset='100%25' stop-color='%23ff6b9d'/%3E%3C/linearGradient%3E%3Cfilter id='glow'%3E%3CfeGaussianBlur stdDeviation='3'/%3E%3C/feGaussianBlur%3E%3C/filter%3E%3C/defs%3E%3Crect width='1600' height='900' fill='url(%23bg)'/%3E%3C!-- particle network lines --%3E%3Cg stroke='%236c63ff' stroke-opacity='0.15' stroke-width='0.6'%3E%3Cline x1='200' y1='150' x2='400' y2='200'/%3E%3Cline x1='400' y1='200' x2='550' y2='120'/%3E%3Cline x1='200' y1='150' x2='300' y2='350'/%3E%3Cline x1='300' y1='350' x2='550' y2='120'/%3E%3Cline x1='300' y1='350' x2='450' y2='500'/%3E%3Cline x1='450' y1='500' x2='550' y2='120'/%3E%3Cline x1='1100' y1='200' x2='1300' y2='150'/%3E%3Cline x1='1300' y1='150' x2='1450' y2='300'/%3E%3Cline x1='1100' y1='200' x2='1200' y2='400'/%3E%3Cline x1='1200' y1='400' x2='1450' y2='300'/%3E%3Cline x1='1200' y1='400' x2='1350' y2='550'/%3E%3Cline x1='1350' y1='550' x2='1450' y2='300'/%3E%3C/g%3E%3C!-- particle dots --%3E%3Cg fill='%236c63ff' opacity='0.6'%3E%3Ccircle cx='200' cy='150' r='4'/%3E%3Ccircle cx='400' cy='200' r='3'/%3E%3Ccircle cx='550' cy='120' r='3.5'/%3E%3Ccircle cx='300' cy='350' r='3'/%3E%3Ccircle cx='450' cy='500' r='2.5'/%3E%3Ccircle cx='1100' cy='200' r='4'/%3E%3Ccircle cx='1300' cy='150' r='3'/%3E%3Ccircle cx='1450' cy='300' r='3.5'/%3E%3Ccircle cx='1200' cy='400' r='3'/%3E%3Ccircle cx='1350' cy='550' r='2.5'/%3E%3C/g%3E%3Ccircle cx='1300' cy='150' r='6' fill='%2300d4aa' opacity='0.4'/%3E%3Ccircle cx='300' cy='350' r='5' fill='%23ff6b9d' opacity='0.3'/%3E%3C!-- title area --%3E%3Ctext x='800' y='360' text-anchor='middle' font-size='88' fill='url(%23grad)' font-family='PingFang SC, Microsoft YaHei, sans-serif' font-weight='800' letter-spacing='8'%3E个人作品集%3C/text%3E%3Ctext x='800' y='440' text-anchor='middle' font-size='32' fill='%23888' font-family='PingFang SC, Microsoft YaHei, sans-serif' letter-spacing='2'%3E我的技术探索与创造之旅%3C/text%3E%3Ctext x='800' y='500' text-anchor='middle' font-size='20' fill='%23666' font-family='Segoe UI, sans-serif'%3EFull-Stack Developer · Problem Solver · Creative Coder%3C/text%3E%3C!-- website thumbnail mockup --%3E%3Crect x='1080' y='540' width='400' height='240' rx='12' fill='rgba(255,255,255,0.04)' stroke='%236c63ff' stroke-opacity='0.2'/%3E%3Crect x='1095' y='555' width='370' height='28' rx='6' fill='rgba(108,99,255,0.15)'/%3E%3Ctext x='1110' y='574' font-size='12' fill='%23888' font-family='sans-serif'%3Eportfolio.yourname.dev%3C/text%3E%3Crect x='1095' y='595' width='175' height='170' rx='8' fill='rgba(0,212,170,0.06)' stroke='%2300d4aa' stroke-opacity='0.15'/%3E%3Crect x='1285' y='595' width='180' height='82' rx='8' fill='rgba(108,99,255,0.08)' stroke='%236c63ff' stroke-opacity='0.15'/%3E%3Crect x='1285' y='687' width='180' height='78' rx='8' fill='rgba(255,107,157,0.08)' stroke='%23ff6b9d' stroke-opacity='0.15'/%3E%3C/svg%3E" alt="方案 A 首页预览">
+              </button>
+              <div class="preview-caption">深色底色 + 粒子网络 + 渐变标题，一眼看出是技术向个人展示。</div>
+            </div>
+            <div class="preview-card">
+              <div class="preview-label">目录页</div>
+              <button class="preview-button" type="button" data-preview-title="方案 A｜霓虹科技风 — 目录页" data-preview-subtitle="深色卡片 + 编号 + 渐变分隔线" data-preview-group="A" data-preview-index="1">
+                <img class="preview-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%230a0a1a'/%3E%3Cstop offset='100%25' stop-color='%2312122a'/%3E%3C/linearGradient%3E%3ClinearGradient id='grad' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%236c63ff'/%3E%3Cstop offset='100%25' stop-color='%2300d4aa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1600' height='900' fill='url(%23bg)'/%3E%3Ctext x='120' y='100' font-size='42' fill='%236c63ff' font-family='Segoe UI, sans-serif' font-weight='600' letter-spacing='4'%3ECONTENTS%3C/text%3E%3Ctext x='120' y='145' font-size='28' fill='%23e0e0e0' font-family='PingFang SC, Microsoft YaHei, sans-serif' font-weight='700'%3E目 录%3C/text%3E%3Cline x1='120' y1='165' x2='300' y2='165' stroke='url(%23grad)' stroke-width='3' stroke-linecap='round'/%3E%3C!-- item 1 --%3E%3Crect x='120' y='210' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.03)' stroke='rgba(108,99,255,0.15)'/%3E%3Ccircle cx='170' cy='250' r='22' fill='%236c63ff' fill-opacity='0.2'/%3E%3Ctext x='170' y='257' text-anchor='middle' font-size='20' fill='%236c63ff' font-weight='700'%3E01%3C/text%3E%3Ctext x='220' y='256' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E关于我 — 技术探索之旅%3C/text%3E%3Ctext x='1340' y='256' text-anchor='end' font-size='16' fill='%23666' font-family='sans-serif'%3EAbout Me%3C/text%3E%3C!-- item 2 --%3E%3Crect x='120' y='310' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.03)' stroke='rgba(0,212,170,0.15)'/%3E%3Ccircle cx='170' cy='350' r='22' fill='%2300d4aa' fill-opacity='0.2'/%3E%3Ctext x='170' y='357' text-anchor='middle' font-size='20' fill='%2300d4aa' font-weight='700'%3E02%3C/text%3E%3Ctext x='220' y='356' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E技术栈全景 — 六边形能力图谱%3C/text%3E%3Ctext x='1340' y='356' text-anchor='end' font-size='16' fill='%23666' font-family='sans-serif'%3ESkills Overview%3C/text%3E%3C!-- item 3 --%3E%3Crect x='120' y='410' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.03)' stroke='rgba(255,107,157,0.15)'/%3E%3Ccircle cx='170' cy='450' r='22' fill='%23ff6b9d' fill-opacity='0.2'/%3E%3Ctext x='170' y='457' text-anchor='middle' font-size='20' fill='%23ff6b9d' font-weight='700'%3E03%3C/text%3E%3Ctext x='220' y='456' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E项目展示 — 三个代表作%3C/text%3E%3Ctext x='1340' y='456' text-anchor='end' font-size='16' fill='%23666' font-family='sans-serif'%3EProjects%3C/text%3E%3C!-- item 4 --%3E%3Crect x='120' y='510' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.03)' stroke='rgba(108,99,255,0.15)'/%3E%3Ccircle cx='170' cy='550' r='22' fill='%236c63ff' fill-opacity='0.2'/%3E%3Ctext x='170' y='557' text-anchor='middle' font-size='20' fill='%236c63ff' font-weight='700'%3E04%3C/text%3E%3Ctext x='220' y='556' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E网站揭秘 — 设计与技术实现%3C/text%3E%3Ctext x='1340' y='556' text-anchor='end' font-size='16' fill='%23666' font-family='sans-serif'%3ESite Design%3C/text%3E%3C!-- item 5 --%3E%3Crect x='120' y='610' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.03)' stroke='rgba(0,212,170,0.15)'/%3E%3Ccircle cx='170' cy='650' r='22' fill='%2300d4aa' fill-opacity='0.2'/%3E%3Ctext x='170' y='657' text-anchor='middle' font-size='20' fill='%2300d4aa' font-weight='700'%3E05%3C/text%3E%3Ctext x='220' y='656' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E未来计划 — 持续探索中%3C/text%3E%3Ctext x='1340' y='656' text-anchor='end' font-size='16' fill='%23666' font-family='sans-serif'%3EFuture Plans%3C/text%3E%3C!-- decorative orbs --%3E%3Ccircle cx='1400' cy='100' r='120' fill='%236c63ff' opacity='0.04'/%3E%3Ccircle cx='200' cy='800' r='100' fill='%2300d4aa' opacity='0.03'/%3E%3C/svg%3E" alt="方案 A 目录页预览">
+              </button>
+              <div class="preview-caption">编号卡片 + 渐变分隔，结构清晰，适合展示章节层次。</div>
+            </div>
+            <div class="preview-card">
+              <div class="preview-label">正文页</div>
+              <button class="preview-button" type="button" data-preview-title="方案 A｜霓虹科技风 — 正文页" data-preview-subtitle="技能卡片网格 + 渐变进度条 + 发光效果" data-preview-group="A" data-preview-index="2">
+                <img class="preview-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%230a0a1a'/%3E%3Cstop offset='100%25' stop-color='%2312122a'/%3E%3C/linearGradient%3E%3ClinearGradient id='g1' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0%25' stop-color='%236c63ff'/%3E%3Cstop offset='100%25' stop-color='%2300d4aa'/%3E%3C/linearGradient%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0%25' stop-color='%2300d4aa'/%3E%3Cstop offset='100%25' stop-color='%236c63ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1600' height='900' fill='url(%23bg)'/%3E%3Ctext x='120' y='90' font-size='36' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='700'%3E技术栈全景%3C/text%3E%3Cline x1='120' y1='108' x2='240' y2='108' stroke='url(%23g1)' stroke-width='3' stroke-linecap='round'/%3E%3C!-- skill cards row 1 --%3E%3Crect x='120' y='150' width='380' height='200' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(108,99,255,0.2)'/%3E%3Ctext x='150' y='190' font-size='32'%3E💻%3C/text%3E%3Ctext x='195' y='195' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E前端开发%3C/text%3E%3Ctext x='150' y='230' font-size='15' fill='%23888' font-family='sans-serif'%3EHTML / CSS / JS / React / Vue%3C/text%3E%3Crect x='150' y='250' width='320' height='5' rx='2.5' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='150' y='250' width='272' height='5' rx='2.5' fill='url(%23g1)'/%3E%3Ctext x='470' y='259' font-size='13' fill='%236c63ff'%3E85%25%3C/text%3E%3Crect x='530' y='150' width='380' height='200' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(0,212,170,0.2)'/%3E%3Ctext x='560' y='190' font-size='32'%3E⚙️%3C/text%3E%3Ctext x='605' y='195' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E后端服务%3C/text%3E%3Ctext x='560' y='230' font-size='15' fill='%23888' font-family='sans-serif'%3EPython / Java / Node.js / REST%3C/text%3E%3Crect x='560' y='250' width='320' height='5' rx='2.5' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='560' y='250' width='240' height='5' rx='2.5' fill='url(%23g2)'/%3E%3Ctext x='870' y='259' font-size='13' fill='%2300d4aa'%3E75%25%3C/text%3E%3Crect x='940' y='150' width='380' height='200' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(255,107,157,0.2)'/%3E%3Ctext x='970' y='190' font-size='32'%3E🚀%3C/text%3E%3Ctext x='1015' y='195' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E数据与AI%3C/text%3E%3Ctext x='970' y='230' font-size='15' fill='%23888' font-family='sans-serif'%3EMachine Learning / NLP / Analysis%3C/text%3E%3Crect x='970' y='250' width='320' height='5' rx='2.5' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='970' y='250' width='224' height='5' rx='2.5' fill='%23ff6b9d'/%3E%3Ctext x='1264' y='259' font-size='13' fill='%23ff6b9d'%3E70%25%3C/text%3E%3C!-- skill cards row 2 --%3E%3Crect x='120' y='380' width='380' height='200' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(108,99,255,0.2)'/%3E%3Ctext x='150' y='420' font-size='32'%3E📚%3C/text%3E%3Ctext x='195' y='425' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E数据结构%3C/text%3E%3Ctext x='150' y='460' font-size='15' fill='%23888' font-family='sans-serif'%3EAlgorithms / Competitive Programming%3C/text%3E%3Crect x='150' y='480' width='320' height='5' rx='2.5' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='150' y='480' width='256' height='5' rx='2.5' fill='url(%23g1)'/%3E%3Ctext x='470' y='489' font-size='13' fill='%236c63ff'%3E80%25%3C/text%3E%3Crect x='530' y='380' width='380' height='200' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(0,212,170,0.2)'/%3E%3Ctext x='560' y='420' font-size='32'%3E🎨%3C/text%3E%3Ctext x='605' y='425' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E设计能力%3C/text%3E%3Ctext x='560' y='460' font-size='15' fill='%23888' font-family='sans-serif'%3EUI/UX / Figma / Creative Direction%3C/text%3E%3Crect x='560' y='480' width='320' height='5' rx='2.5' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='560' y='480' width='208' height='5' rx='2.5' fill='url(%23g2)'/%3E%3Ctext x='854' y='489' font-size='13' fill='%2300d4aa'%3E65%25%3C/text%3E%3Crect x='940' y='380' width='380' height='200' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(255,107,157,0.2)'/%3E%3Ctext x='970' y='420' font-size='32'%3E🛠️%3C/text%3E%3Ctext x='1015' y='425' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E工程工具%3C/text%3E%3Ctext x='970' y='460' font-size='15' fill='%23888' font-family='sans-serif'%3EGit / Docker / Linux / CLI%3C/text%3E%3Crect x='970' y='480' width='320' height='5' rx='2.5' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='970' y='480' width='249' height='5' rx='2.5' fill='%23ff6b9d'/%3E%3Ctext x='1264' y='489' font-size='13' fill='%23ff6b9d'%3E78%25%3C/text%3E%3C!-- decorative --%3E%3Ccircle cx='1500' cy='700' r='150' fill='%236c63ff' opacity='0.03'/%3E%3Ccircle cx='100' cy='750' r='120' fill='%2300d4aa' opacity='0.03'/%3E%3C/svg%3E" alt="方案 A 正文页预览">
+              </button>
+              <div class="preview-caption">技能卡片网格 + 渐变进度条，信息密度适中，一眼看懂能力分布。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 方案 B：极简留白风 -->
+      <section class="scheme" data-scheme>
+        <div class="scheme-head">
+          <div class="scheme-main">
+            <div class="scheme-topline">
+              <span class="scheme-code">B</span>
+              <span class="scheme-tag">清爽路线</span>
+            </div>
+            <h2 class="scheme-title">方案 B ｜ 极简留白风</h2>
+            <p class="scheme-subtitle">纯白底色 + 大面积留白 + 少量彩色点缀，干净清爽，适合社团展示，投影效果好。</p>
+          </div>
+        </div>
+        <div class="scheme-body">
+          <aside class="meta-panel">
+            <div class="meta-section">
+              <div class="meta-label">一句话定位</div>
+              <div class="meta-value">白底留白 + 少量彩色强调，干净清爽，投影友好，适合非正式分享。</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">封面页方向</div>
+              <div class="meta-value">大面积白色留白，左侧放置一个彩色圆形色块（取网站三色之一），右侧大号黑色标题 + 灰色副标题，极简但有记忆点。</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">正文页视觉语法</div>
+              <div class="meta-value">白色卡片容器 + 细灰边框，关键数字/百分比用三色渐变圆角矩形标注，留白充足，阅读无压力。</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">配色</div>
+              <div class="meta-value">底色 #ffffff · 文字 #1a1a2e · 点缀 #6c63ff / #00d4aa / #ff6b9d（各占 10%）</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">风险点</div>
+              <div class="meta-value">过于简约可能缺乏视觉冲击力，需要靠内容质量和排版节奏取胜。</div>
+            </div>
+          </aside>
+          <div class="preview-grid">
+            <div class="preview-card">
+              <div class="preview-label">首页</div>
+              <button class="preview-button" type="button" data-preview-title="方案 B｜极简留白风 — 首页" data-preview-subtitle="大面积留白 + 彩色圆点 + 黑白标题" data-preview-group="B" data-preview-index="0">
+                <img class="preview-image" src="https://platform-outputs.agnes-ai.space/images/t2i/4bc7b0ab20944da3ac7233099c8f84ac.png" alt="方案 B 首页预览">
+              </button>
+              <div class="preview-caption">大面积留白 + 彩色圆点装饰，极简但有记忆点。</div>
+            </div>
+            <div class="preview-card">
+              <div class="preview-label">目录页</div>
+              <button class="preview-button" type="button" data-preview-title="方案 B｜极简留白风 — 目录页" data-preview-subtitle="白色卡片 + 细线分隔 + 编号圆点" data-preview-group="B" data-preview-index="1">
+                <img class="preview-image" src="https://platform-outputs.agnes-ai.space/images/t2i/597ad225d3fa49cb8b2d361f2db9a276.png" alt="方案 B 目录页预览">
+              </button>
+              <div class="preview-caption">白色卡片 + 细线分隔，阅读无压力，投影效果优秀。</div>
+            </div>
+            <div class="preview-card">
+              <div class="preview-label">正文页</div>
+              <button class="preview-button" type="button" data-preview-title="方案 B｜极简留白风 — 正文页" data-preview-subtitle="白色卡片 + 彩色进度条 + 大量留白" data-preview-group="B" data-preview-index="2">
+                <img class="preview-image" src="https://platform-outputs.agnes-ai.space/images/t2i/24d2348b6a054884b53dda99592e862c.png" alt="方案 B 正文页预览">
+              </button>
+              <div class="preview-caption">白色卡片列表 + 彩色百分比标签，清晰易读。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 方案 C：暗色磨砂风 -->
+      <section class="scheme" data-scheme>
+        <div class="scheme-head">
+          <div class="scheme-main">
+            <div class="scheme-topline">
+              <span class="scheme-code">C</span>
+              <span class="scheme-tag">现代质感</span>
+            </div>
+            <h2 class="scheme-title">方案 C ｜ 暗色磨砂风</h2>
+            <p class="scheme-subtitle">深灰底色 + 毛玻璃卡片 + 柔和渐变光晕，现代感强，兼顾专业与轻松氛围。</p>
+          </div>
+        </div>
+        <div class="scheme-body">
+          <aside class="meta-panel">
+            <div class="meta-section">
+              <div class="meta-label">一句话定位</div>
+              <div class="meta-value">深灰 + 毛玻璃 + 渐变光晕，现代感强，专业但不严肃。</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">封面页方向</div>
+              <div class="meta-value">深灰底色上叠加柔和的紫色/青色渐变光晕，中央毛玻璃卡片内放置标题，卡片半透明模糊效果增加层次感。</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">正文页视觉语法</div>
+              <div class="meta-value">毛玻璃卡片作为信息容器，卡片间用间距而非边框区分，渐变光晕作为装饰元素穿插，信息层级通过字号和卡片大小体现。</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">配色</div>
+              <div class="meta-value">底色 #1a1a2e · 卡片 rgba(255,255,255,0.06) · 光晕 #6c63ff / #00d4aa（低透明度）</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">风险点</div>
+              <div class="meta-value">毛玻璃效果在投影上可能不明显，部分细节会丢失。</div>
+            </div>
+          </aside>
+          <div class="preview-grid">
+            <div class="preview-card">
+              <div class="preview-label">首页</div>
+              <button class="preview-button" type="button" data-preview-title="方案 C｜暗色磨砂风 — 首页" data-preview-subtitle="深灰底色 + 渐变光晕 + 毛玻璃卡片标题" data-preview-group="C" data-preview-index="0">
+                <img class="preview-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%231a1a2e'/%3E%3Cstop offset='100%25' stop-color='%2316213e'/%3E%3C/linearGradient%3E%3ClinearGradient id='grad' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%236c63ff'/%3E%3Cstop offset='100%25' stop-color='%2300d4aa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1600' height='900' fill='url(%23bg)'/%3E%3C!-- gradient orbs --%3E%3Ccircle cx='300' cy='200' r='300' fill='%236c63ff' opacity='0.06'/%3E%3Ccircle cx='1300' cy='600' r='350' fill='%2300d4aa' opacity='0.05'/%3E%3Ccircle cx='1400' cy='200' r='200' fill='%23ff6b9d' opacity='0.04'/%3E%3C!-- glass card --%3E%3Crect x='350' y='250' width='900' height='400' rx='32' fill='rgba(255,255,255,0.05)' stroke='rgba(255,255,255,0.08)'/%3E%3Ctext x='800' y='400' text-anchor='middle' font-size='72' fill='%23e0e0e0' font-family='PingFang SC, Microsoft YaHei, sans-serif' font-weight='800' letter-spacing='6'%3E个人作品集%3C/text%3E%3Ctext x='800' y='480' text-anchor='middle' font-size='28' fill='%23888' font-family='PingFang SC, sans-serif'%3E我的技术探索与创造之旅%3C/text%3E%3Cline x1='680' y1='520' x2='920' y2='520' stroke='url(%23grad)' stroke-width='3' stroke-linecap='round'/%3E%3Ctext x='800' y='570' text-anchor='middle' font-size='18' fill='%23666' font-family='Segoe UI, sans-serif'%3EFull-Stack Developer · Problem Solver · Creative Coder%3C/text%3E%3C/svg%3E" alt="方案 C 首页预览">
+              </button>
+              <div class="preview-caption">深灰底色 + 渐变光晕 + 毛玻璃卡片，现代质感拉满。</div>
+            </div>
+            <div class="preview-card">
+              <div class="preview-label">目录页</div>
+              <button class="preview-button" type="button" data-preview-title="方案 C｜暗色磨砂风 — 目录页" data-preview-subtitle="毛玻璃卡片列表 + 渐变光晕背景" data-preview-group="C" data-preview-index="1">
+                <img class="preview-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%231a1a2e'/%3E%3Cstop offset='100%25' stop-color='%2316213e'/%3E%3C/linearGradient%3E%3ClinearGradient id='grad' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0%25' stop-color='%236c63ff'/%3E%3Cstop offset='100%25' stop-color='%2300d4aa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1600' height='900' fill='url(%23bg)'/%3E%3Ccircle cx='200' cy='100' r='250' fill='%236c63ff' opacity='0.05'/%3E%3Ccircle cx='1400' cy='750' r='280' fill='%2300d4aa' opacity='0.04'/%3E%3Ctext x='120' y='100' font-size='36' fill='%23888' font-family='Segoe UI, sans-serif' font-weight='600' letter-spacing='4'%3ECONTENTS%3C/text%3E%3Ctext x='120' y='145' font-size='32' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='700'%3E目 录%3C/text%3E%3C!-- glass items --%3E%3Crect x='120' y='190' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Crect x='120' y='190' width='5' height='80' rx='2.5' fill='%236c63ff'/%3E%3Ctext x='160' y='240' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E01 · 关于我 — 技术探索之旅%3C/text%3E%3Crect x='120' y='290' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Crect x='120' y='290' width='5' height='80' rx='2.5' fill='%2300d4aa'/%3E%3Ctext x='160' y='340' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E02 · 技术栈全景 — 六边形能力图谱%3C/text%3E%3Crect x='120' y='390' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Crect x='120' y='390' width='5' height='80' rx='2.5' fill='%23ff6b9d'/%3E%3Ctext x='160' y='440' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E03 · 项目展示 — 三个代表作%3C/text%3E%3Crect x='120' y='490' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Crect x='120' y='490' width='5' height='80' rx='2.5' fill='%236c63ff'/%3E%3Ctext x='160' y='540' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E04 · 网站揭秘 — 设计与技术实现%3C/text%3E%3Crect x='120' y='590' width='1360' height='80' rx='16' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Crect x='120' y='590' width='5' height='80' rx='2.5' fill='%2300d4aa'/%3E%3Ctext x='160' y='640' font-size='22' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='600'%3E05 · 未来计划 — 持续探索中%3C/text%3E%3C/svg%3E" alt="方案 C 目录页预览">
+              </button>
+              <div class="preview-caption">毛玻璃卡片列表 + 左侧渐变竖条，层次分明。</div>
+            </div>
+            <div class="preview-card">
+              <div class="preview-label">正文页</div>
+              <button class="preview-button" type="button" data-preview-title="方案 C｜暗色磨砂风 — 正文页" data-preview-subtitle="毛玻璃技能卡片 + 渐变光晕背景" data-preview-group="C" data-preview-index="2">
+                <img class="preview-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%231a1a2e'/%3E%3Cstop offset='100%25' stop-color='%2316213e'/%3E%3C/linearGradient%3E%3ClinearGradient id='g1' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0%25' stop-color='%236c63ff'/%3E%3Cstop offset='100%25' stop-color='%2300d4aa'/%3E%3C/linearGradient%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0%25' stop-color='%2300d4aa'/%3E%3Cstop offset='100%25' stop-color='%236c63ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1600' height='900' fill='url(%23bg)'/%3E%3Ccircle cx='1400' cy='150' r='250' fill='%236c63ff' opacity='0.05'/%3E%3Ccircle cx='200' cy='750' r='200' fill='%2300d4aa' opacity='0.04'/%3E%3Ctext x='120' y='90' font-size='36' fill='%23e0e0e0' font-family='PingFang SC, sans-serif' font-weight='700'%3E技术栈全景%3C/text%3E%3Cline x1='120' y1='108' x2='220' y2='108' stroke='%236c63ff' stroke-width='3' stroke-linecap='round'/%3E%3C!-- cards --%3E%3Crect x='120' y='150' width='360' height='220' rx='20' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Ctext x='155' y='195' font-size='36'%3E💻%3C/text%3E%3Ctext x='210' y='200' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E前端开发%3C/text%3E%3Ctext x='155' y='240' font-size='14' fill='%23888'%3EHTML / CSS / JS / React / Vue%3C/text%3E%3Crect x='155' y='270' width='290' height='6' rx='3' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='155' y='270' width='247' height='6' rx='3' fill='url(%23g1)'/%3E%3Ctext x='402' y='286' font-size='13' fill='%236c63ff'%3E85%25%3C/text%3E%3Crect x='510' y='150' width='360' height='220' rx='20' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Ctext x='545' y='195' font-size='36'%3E⚙️%3C/text%3E%3Ctext x='600' y='200' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E后端服务%3C/text%3E%3Ctext x='545' y='240' font-size='14' fill='%23888'%3EPython / Java / Node.js / REST%3C/text%3E%3Crect x='545' y='270' width='290' height='6' rx='3' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='545' y='270' width='218' height='6' rx='3' fill='url(%23g2)'/%3E%3Ctext x='793' y='286' font-size='13' fill='%2300d4aa'%3E75%25%3C/text%3E%3Crect x='900' y='150' width='360' height='220' rx='20' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Ctext x='935' y='195' font-size='36'%3E🚀%3C/text%3E%3Ctext x='990' y='200' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E数据与AI%3C/text%3E%3Ctext x='935' y='240' font-size='14' fill='%23888'%3EMachine Learning / NLP / Analysis%3C/text%3E%3Crect x='935' y='270' width='290' height='6' rx='3' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='935' y='270' width='203' height='6' rx='3' fill='%23ff6b9d'/%3E%3Ctext x='1188' y='286' font-size='13' fill='%23ff6b9d'%3E70%25%3C/text%3E%3Crect x='1290' y='150' width='190' height='220' rx='20' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Ctext x='1325' y='195' font-size='36'%3E📚%3C/text%3E%3Ctext x='1360' y='200' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E数据结构%3C/text%3E%3Ctext x='1325' y='240' font-size='14' fill='%23888'%3EAlgorithms / CP%3C/text%3E%3Crect x='1325' y='270' width='140' height='6' rx='3' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='1325' y='270' width='112' height='6' rx='3' fill='url(%23g1)'/%3E%3Ctext x='1401' y='286' font-size='13' fill='%236c63ff'%3E80%25%3C/text%3E%3Crect x='120' y='400' width='750' height='220' rx='20' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Ctext x='155' y='445' font-size='36'%3E🎨%3C/text%3E%3Ctext x='210' y='450' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E设计能力%3C/text%3E%3Ctext x='155' y='485' font-size='14' fill='%23888'%3EUI/UX / Figma / Creative Direction%3C/text%3E%3Crect x='155' y='515' width='680' height='6' rx='3' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='155' y='515' width='177' height='6' rx='3' fill='url(%23g2)'/%3E%3Ctext x='782' y='531' font-size='13' fill='%2300d4aa'%3E65%25%3C/text%3E%3Crect x='900' y='400' width='750' height='220' rx='20' fill='rgba(255,255,255,0.04)' stroke='rgba(255,255,255,0.06)'/%3E%3Ctext x='935' y='445' font-size='36'%3E🛠️%3C/text%3E%3Ctext x='990' y='450' font-size='22' fill='%23e0e0e0' font-weight='600' font-family='PingFang SC, sans-serif'%3E工程工具%3C/text%3E%3Ctext x='935' y='485' font-size='14' fill='%23888'%3EGit / Docker / Linux / CLI%3C/text%3E%3Crect x='935' y='515' width='680' height='6' rx='3' fill='rgba(255,255,255,0.08)'/%3E%3Crect x='935' y='515' width='209' height='6' rx='3' fill='%23ff6b9d'/%3E%3Ctext x='1194' y='531' font-size='13' fill='%23ff6b9d'%3E78%25%3C/text%3E%3C/svg%3E" alt="方案 C 正文页预览">
+              </button>
+              <div class="preview-caption">毛玻璃卡片排列 + 渐变进度条，现代感与信息量平衡。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+      <div class="lightbox-head">
+        <div>
+          <h2 class="lightbox-title" id="lightboxTitle"></h2>
+          <p class="lightbox-subtitle" id="lightboxSubtitle"></p>
+        </div>
+        <div class="lightbox-actions">
+          <button class="icon-button" id="prevButton" type="button" aria-label="上一张">←</button>
+          <button class="icon-button" id="nextButton" type="button" aria-label="下一张">→</button>
+          <button class="icon-button" id="closeButton" type="button" aria-label="关闭">✕</button>
+        </div>
+      </div>
+      <div class="lightbox-body">
+        <div class="lightbox-stage">
+          <div class="lightbox-image-wrap">
+            <img class="lightbox-image" id="lightboxImage" alt="">
+          </div>
+          <div class="lightbox-side" id="lightboxThumbs"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const schemes = [...document.querySelectorAll('[data-scheme]')];
+    const previewButtons = [...document.querySelectorAll('.preview-button')];
+
+    const previewGroups = previewButtons.reduce((acc, button) => {
+      const key = button.dataset.previewGroup;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(button);
+      acc[key].sort((a, b) => Number(a.dataset.previewIndex) - Number(b.dataset.previewIndex));
+      return acc;
+    }, {});
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxSubtitle = document.getElementById('lightboxSubtitle');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxThumbs = document.getElementById('lightboxThumbs');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    const closeButton = document.getElementById('closeButton');
+
+    const state = { group: null, index: 0 };
+
+    function renderLightbox() {
+      const buttons = previewGroups[state.group] || [];
+      const current = buttons[state.index];
+      if (!current) return;
+      const image = current.querySelector('img');
+      lightboxTitle.textContent = current.dataset.previewTitle || '';
+      lightboxSubtitle.textContent = current.dataset.previewSubtitle || '';
+      lightboxImage.src = image?.src || '';
+      lightboxImage.alt = image?.alt || '';
+      lightboxThumbs.innerHTML = buttons.map((button, index) => {
+        const img = button.querySelector('img');
+        return `<button class="thumb-button ${index === state.index ? 'active' : ''}" type="button" data-thumb-index="${index}">
+          <img class="thumb-image" src="${img?.src || ''}" alt="${img?.alt || ''}">
+          <div class="thumb-meta">${img?.alt || ''}</div>
+        </button>`;
+      }).join('');
+      prevButton.disabled = buttons.length <= 1;
+      nextButton.disabled = buttons.length <= 1;
+    }
+
+    function openLightbox(group, index) {
+      state.group = group;
+      state.index = index;
+      renderLightbox();
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      state.group = null;
+    }
+
+    function moveLightbox(step) {
+      const buttons = previewGroups[state.group] || [];
+      if (!buttons.length) return;
+      state.index = (state.index + step + buttons.length) % buttons.length;
+      renderLightbox();
+    }
+
+    document.addEventListener('click', (event) => {
+      const previewButton = event.target.closest('.preview-button');
+      if (previewButton) {
+        openLightbox(previewButton.dataset.previewGroup, Number(previewButton.dataset.previewIndex || 0));
+        return;
+      }
+      const thumbButton = event.target.closest('[data-thumb-index]');
+      if (thumbButton && state.group) {
+        state.index = Number(thumbButton.dataset.thumbIndex || 0);
+        renderLightbox();
+        return;
+      }
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    prevButton.addEventListener('click', () => moveLightbox(-1));
+    nextButton.addEventListener('click', () => moveLightbox(1));
+    closeButton.addEventListener('click', closeLightbox);
+
+    document.addEventListener('keydown', (event) => {
+      if (!state.group) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') moveLightbox(-1);
+      if (event.key === 'ArrowRight') moveLightbox(1);
+    });
+  </script>
+</body>
+</html>
